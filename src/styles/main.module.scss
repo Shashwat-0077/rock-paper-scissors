@@ -1,0 +1,298 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&display=swap");
+
+.header {
+    width: 90dvw;
+    height: 154px;
+    max-width: 704px;
+    border: 4px solid hsl(217, 16%, 45%);
+    border-radius: 21px;
+    margin-top: 47px;
+    padding: 12px 25px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-family: "Barlow Semi Condensed", sans-serif;
+    font-weight: 600;
+
+    .scorecard {
+        width: 152px;
+        height: 116px;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .score {
+            color: hsl(229, 25%, 31%);
+            font-size: 50px;
+            line-height: 1;
+            font-weight: 700;
+        }
+    }
+}
+
+.move_picker {
+    --shadow: 7px;
+
+    margin-top: 100px;
+
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    align-items: center;
+    justify-items: center;
+
+    width: 700px;
+    height: 400px;
+
+    .pentagon {
+        --size: 70%;
+
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        path {
+            stroke: #16223c;
+        }
+
+        fill: transparent;
+        width: var(--size);
+        height: var(--size);
+        background-color: transparent;
+    }
+
+    .scissors {
+        grid-column: span 2;
+        transform: translateY(-20px);
+        cursor: pointer;
+    }
+    .spock {
+        transform: translate(20px, -38px);
+        cursor: pointer;
+    }
+    .paper {
+        transform: translate(-20px, -38px);
+        cursor: pointer;
+    }
+    .lizard {
+        justify-self: right;
+        transform: translateX(-40px);
+        cursor: pointer;
+    }
+    .rock {
+        justify-self: left;
+        transform: translateX(40px);
+        cursor: pointer;
+    }
+}
+
+.move {
+    --btn-size: 120px;
+
+    width: var(--btn-size);
+    height: var(--btn-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    z-index: 2;
+    transition: transform 200ms, scale 100ms;
+
+    &:hover {
+        transition: scale 100ms;
+        scale: 1.1;
+    }
+
+    .inside {
+        display: grid;
+        place-content: center;
+        border-radius: 50%;
+        width: calc(100% * 0.7);
+        height: calc(100% * 0.7);
+        background-color: #eceaeb;
+        border-top: var(--shadow) solid #b9bed2;
+
+        svg {
+            transform: scale(0.8);
+        }
+    }
+}
+
+.scissors {
+    background: linear-gradient(to top, hsl(39, 89%, 49%), hsl(40, 84%, 53%));
+    border-bottom: var(--shadow) solid #c76d1f;
+}
+.spock {
+    background: linear-gradient(to top, hsl(189, 59%, 53%), hsl(189, 58%, 57%));
+    border-bottom: var(--shadow) solid #2b8ead;
+}
+.paper {
+    background: linear-gradient(to top, hsl(230, 89%, 62%), hsl(230, 89%, 65%));
+    border-bottom: var(--shadow) solid #2946bd;
+}
+.lizard {
+    background: linear-gradient(to top, hsl(261, 73%, 60%), hsl(261, 72%, 63%));
+    border-bottom: var(--shadow) solid #6037ac;
+}
+.rock {
+    background: linear-gradient(to top, hsl(349, 71%, 52%), hsl(349, 70%, 56%));
+    border-bottom: var(--shadow) solid #aa223b;
+}
+
+// ------------------- MATCH COMPONENT -------------------------
+
+.match {
+    margin-top: 4em;
+    width: 100dvw;
+
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 5em;
+    transition: column-gap 300ms;
+
+    &.reduce {
+        column-gap: 0;
+    }
+
+    h2 {
+        color: white;
+        text-align: center;
+        font-family: "Barlow Semi Condensed", sans-serif;
+        font-weight: 700;
+        letter-spacing: 5px;
+        text-indent: 5px;
+        font-size: 25px;
+        margin-bottom: 2em;
+    }
+
+    .move {
+        width: 250px;
+        height: 250px;
+        z-index: 99;
+        position: relative;
+
+        svg {
+            scale: 2.5;
+        }
+    }
+
+    .house_choice,
+    .your_choice {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        position: relative;
+
+        & > div {
+            position: relative;
+        }
+        .smallCircle,
+        .mediumCircle,
+        .bigCircle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background-color: rgba($color: #f9f9f9, $alpha: 0.02);
+            z-index: -1;
+        }
+        .smallCircle.show {
+            animation-name: grow1;
+            animation-duration: 200ms;
+            animation-timing-function: ease;
+            animation-delay: 500ms;
+            animation-fill-mode: forwards;
+        }
+        .mediumCircle.show {
+            animation-name: grow2;
+            animation-duration: 200ms;
+            animation-timing-function: ease;
+            animation-delay: 550ms;
+            animation-fill-mode: forwards;
+        }
+        .bigCircle.show {
+            animation-name: grow3;
+            animation-duration: 200ms;
+            animation-timing-function: ease;
+            animation-delay: 600ms;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes grow1 {
+            0% {
+                width: 0;
+                height: 0;
+            }
+            100% {
+                width: 160%;
+                height: 160%;
+            }
+        }
+        @keyframes grow2 {
+            0% {
+                width: 0;
+                height: 0;
+            }
+            100% {
+                width: 210%;
+                height: 210%;
+            }
+        }
+        @keyframes grow3 {
+            0% {
+                width: 0;
+                height: 0;
+            }
+            100% {
+                width: 260%;
+                height: 260%;
+            }
+        }
+    }
+}
+
+.result {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex-grow: 0;
+    width: 0px;
+    transform: scaleX(0);
+    transition: all 300ms, transform 300ms 200ms;
+
+    h1 {
+        color: white;
+        text-align: center;
+        font-family: "Barlow Semi Condensed", sans-serif;
+        font-weight: 700;
+        font-size: 60px;
+    }
+
+    button {
+        background-color: #eceaeb;
+        font-family: "Barlow Semi Condensed", sans-serif;
+        letter-spacing: 3px;
+        text-indent: 3px;
+        padding: 10px 60px;
+        border-radius: 7px;
+        z-index: 99999;
+    }
+
+    &.show {
+        transform: scaleX(1);
+        flex-grow: 0.4;
+    }
+}
