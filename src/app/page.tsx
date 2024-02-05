@@ -17,11 +17,12 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Match from "@/components/match";
 import useStore from "@/store/store";
+import FullScreenWrapper from "@/components/FullScreenWrapper";
 
 export default function Home() {
     const [randomNumber, setRandomNumber] = useState(999);
     const [firstComponent, setFirstComponent] = useState(true);
-    const [secondComponent, setSecondComponent] = useState(false);
+    const [secondComponent, setSecondComponent] = useState(true);
 
     const setHouseChoice = useStore((state) => state.setHouseChoice);
 
@@ -66,61 +67,63 @@ export default function Home() {
     }, [yourChoice, randomNumber, setHouseChoice]);
 
     return (
-        <>
-            <div className={styles.header}>
-                <Logo className={styles.logo} />
-                <section className={styles.scorecard}>
-                    <p className={styles.txt}>SCORE</p>
-                    <p className={styles.score}>{score}</p>
-                </section>
+        <FullScreenWrapper>
+            <div>
+                <div className={styles.header}>
+                    <Logo className={styles.logo} />
+                    <section className={styles.scorecard}>
+                        <p className={styles.txt}>SCORE</p>
+                        <p className={styles.score}>{score}</p>
+                    </section>
+                </div>
+
+                <AnimatePresence>
+                    {!secondComponent ? (
+                        <motion.div
+                            key="move_picker"
+                            initial={{ y: "20%", opacity: 0, scale: 0.5 }}
+                            animate={{ y: 0, opacity: 1, scale: 1 }}
+                            exit={{ y: "-20%", opacity: 0, scale: 0 }}
+                            className={styles.move_picker}
+                        >
+                            <Pentagon className={styles.pentagon} />
+                            <Scissors setYourChoice={setYourChoice} />
+                            <Spock setYourChoice={setYourChoice} />
+                            <Paper setYourChoice={setYourChoice} />
+                            <Lizard setYourChoice={setYourChoice} />
+                            <Rock setYourChoice={setYourChoice} />
+                        </motion.div>
+                    ) : (
+                        ""
+                    )}
+                    {!firstComponent ? (
+                        // ?INFO : when the yourChoice changes, nothing is passed as a child, so the nothing is displayed when you click "PLAY AGAIN", to solve that we use previous state to check what was the previous state so that we can render the same thing
+
+                        <Match>
+                            {yourChoice === "scissors" ||
+                            previousChoice === "scissors" ? (
+                                <Scissors />
+                            ) : yourChoice === "spock" ||
+                              previousChoice === "spock" ? (
+                                <Spock />
+                            ) : yourChoice === "paper" ||
+                              previousChoice === "paper" ? (
+                                <Paper />
+                            ) : yourChoice === "lizard" ||
+                              previousChoice === "lizard" ? (
+                                <Lizard />
+                            ) : yourChoice === "rock" ||
+                              previousChoice === "rock" ? (
+                                <Rock />
+                            ) : (
+                                ""
+                            )}
+                        </Match>
+                    ) : (
+                        ""
+                    )}
+                </AnimatePresence>
             </div>
-
-            <AnimatePresence>
-                {!secondComponent ? (
-                    <motion.div
-                        key="move_picker"
-                        initial={{ y: "20%", opacity: 0, scale: 0.5 }}
-                        animate={{ y: 0, opacity: 1, scale: 1 }}
-                        exit={{ y: "-20%", opacity: 0, scale: 0 }}
-                        className={styles.move_picker}
-                    >
-                        <Pentagon className={styles.pentagon} />
-                        <Scissors setYourChoice={setYourChoice} />
-                        <Spock setYourChoice={setYourChoice} />
-                        <Paper setYourChoice={setYourChoice} />
-                        <Lizard setYourChoice={setYourChoice} />
-                        <Rock setYourChoice={setYourChoice} />
-                    </motion.div>
-                ) : (
-                    ""
-                )}
-                {!firstComponent ? (
-                    // ?INFO : when the yourChoice changes, nothing is passed as a child, so the nothing is displayed when you click "PLAY AGAIN", to solve that we use previous state to check what was the previous state so that we can render the same thing
-
-                    <Match>
-                        {yourChoice === "scissors" ||
-                        previousChoice === "scissors" ? (
-                            <Scissors />
-                        ) : yourChoice === "spock" ||
-                          previousChoice === "spock" ? (
-                            <Spock />
-                        ) : yourChoice === "paper" ||
-                          previousChoice === "paper" ? (
-                            <Paper />
-                        ) : yourChoice === "lizard" ||
-                          previousChoice === "lizard" ? (
-                            <Lizard />
-                        ) : yourChoice === "rock" ||
-                          previousChoice === "rock" ? (
-                            <Rock />
-                        ) : (
-                            ""
-                        )}
-                    </Match>
-                ) : (
-                    ""
-                )}
-            </AnimatePresence>
-        </>
+        </FullScreenWrapper>
     );
 }

@@ -1,5 +1,46 @@
 @import url("https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&display=swap");
 
+.permission {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Barlow Semi Condensed", sans-serif;
+    color: white;
+    height: 100dvh;
+    width: 70dvw;
+
+    h1 {
+        font-size: 25px;
+        margin-bottom: 1em;
+        text-align: center;
+    }
+    button {
+        background-color: white;
+        color: black;
+        padding: 0.5em 3em;
+        border-radius: 10px;
+        align-self: center;
+    }
+}
+
+.fatherComponent {
+    min-width: 100dvw;
+    min-height: 100dvh;
+    background: radial-gradient(
+            circle at center top,
+            hsl(214, 47%, 23%),
+            hsl(237, 49%, 15%)
+        )
+        no-repeat;
+
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
 .header {
     width: 90dvw;
     height: 154px;
